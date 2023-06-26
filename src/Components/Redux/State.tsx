@@ -1,5 +1,6 @@
 import React from "react";
-import {rerenderEntireTree} from "../../render";
+import profile from "../Profile/Profile";
+import posts from "../Profile/MyPosts/Posts/Posts";
 
 export type PostsType = {
     id: number
@@ -55,15 +56,25 @@ const state: RootStateType = {
 
 }
 
-export const addNewPost = (postMessage: string) => {
-    let newMessage: PostsType = {id: 5, message: postMessage, likesCount: 32}
-    state.profilePage.posts.push(newMessage)
-rerenderEntireTree(state)
+let rerenderEntireTree = (state: RootStateType) => {
+}
+export const subscribe = (observer: (state: RootStateType) => void) => {
+    rerenderEntireTree = observer
 }
 
-export const addNewMessage = (postMessage: string)=>{
+export const addNewPost = (postMessage: string) => {
+    let newMessage: PostsType = {id: 5, message: postMessage, likesCount: 32}
+    const newPosts = [newMessage, ...state.profilePage.posts]
+    state.profilePage.posts = newPosts
+    // state.profilePage.posts.push(newMessage)
+    rerenderEntireTree(state)
+}
+
+export const addNewMessage = (postMessage: string) => {
     let newMessage: MessagesType = {id: 4, message: postMessage}
-    state.dialogsPage.messages.push(newMessage)
+    const newPosts = [newMessage, ...state.dialogsPage.messages]
+    state.dialogsPage.messages = newPosts
+    // state.dialogsPage.messages.push(newMessage)
     rerenderEntireTree(state)
 }
 
